@@ -1,0 +1,12 @@
+{%extends 'accountability_app/base.html'%}
+
+{%block title%} Event Detail {%endblock%}
+
+{%block content%}
+<body>
+    <h1>{{event.topic}}</h1>
+    <h1> {{event.date}}</h1>
+    <h1> {{event.text}}</h1>
+</body>
+<a href="{%url 'home'%}">Back Home!</a>
+{%endblock%}
