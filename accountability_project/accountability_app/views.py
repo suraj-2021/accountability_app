@@ -1,21 +1,25 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import TemplateView
-from .models import Event
-from .myutils import Calendar
+from django.shortcuts import render, redirect
 from datetime import datetime
+from .myutils import generate_month_calendar
+from .forms import DayForm
+from django.urls import reverse
 
-# Create your views here.
-
-
+year = datetime.now().year
+month = datetime.now().month
 def home(request):
-    context = {"cal":Calendar().formatmonth(request.year,request.month,request.day)}
+    calendar_str = generate_month_calendar(year, month)
 
-    return render(request,'accountability_app/home.html',context)
+    return render(request, 'accountability_app/home.html',{"cal":calendar_str})
 
-
-def event_detail(request, year,month,day):
-    event = get_object_or_404(Event, date__year= year, date__month= month, date__day = day)
-    return render(request, 'accountability_app/event_detail.html', {'event': event})
+def day_details(request,year,month,day):
+    if request.method == "POST":
+        form = DayForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('home'))
+    else:       
+      form = DayForm()
+    return render(request,'accountability_app/day_details.html',{"form": form})
 
 """
 class home(TemplateView):
