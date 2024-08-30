@@ -1,0 +1,50 @@
+{% extends 'accountability_app/base.html' %}
+
+{% block content %}
+<style>
+.note {
+  color: #007bff;  /* Replace with your desired color code for the description */
+  font-weight: bold;  /* Optional: make it bold */
+}
+</style>
+<div class="container mt-5">
+    <h1 class="text-center">Details for {{ selected_date }}</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="POST" class="mb-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p| safe }}  <!-- Use safe to render the form -->
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+
+            <h2>Entries for this date:</h2>
+            <ul class="list-group">
+            {% if day_objects is not None %}
+               {% if day_objects %}
+                  {% for day in day_objects %}
+                      <li class="list-group-item d-flex justify-content-between align-items-center text-green">
+                        <span class="note">Title: {{ day.title }}</span>  
+                        <span class="note">Note: {{ day.note }}</span>
+                         {% if 'day.is_public = True' %}
+                           <span class="note">Note: This is Public</span>
+                         {%endif%}
+                          <span class="badge badge-secondary text-danger">{{ day.date }}</span>
+                      </li>
+                  {% empty %}
+                      <li class="list-group-item">No entries for this date.</li>
+                  {% endfor %}
+                  {% else %}
+        <li class="list-group-item">No entries for this date.</li>
+                {% endif %}
+          {% else %}
+            <h4>No Notes!</h4>
+          {% endif %}
+          </ul>
+          
+        </div>
+    </div>
+</div>
+{% endblock %}

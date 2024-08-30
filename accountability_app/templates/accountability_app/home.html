@@ -1,0 +1,34 @@
+{%extends 'accountability_app/base.html'%}
+{%block content%}
+
+    <style>
+        /* Basic styles for the calendar */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+            color: blue;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calendar</h1>
+    <div>
+        {{ cal|safe }}
+        
+        <li>{{cal.day}}</li>
+        
+
+    </div>
+</body>
+{%endblock%}

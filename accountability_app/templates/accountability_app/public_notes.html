@@ -1,0 +1,14 @@
+{%extends 'accountability_app/base.html'%}
+{%block content%}
+<div class="container mt-5">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            {%for note in notes%}
+            <h5 class="card-title">{{note}}</h5>
+            <p class="card-text">Public Notes!!</p>
+            {%endfor%}
+            </div>
+            </div>
+            </div>
+            
+{%endblock%}
