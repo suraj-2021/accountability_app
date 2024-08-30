@@ -1,0 +1,14 @@
+{% extends "accountability_app/base.html" %}
+{% block content %}
+<h1>Inbox</h1>
+<ul>
+    {% for message in messages %}
+        <li>
+            <strong>{{ message.sender.username }}:</strong> {{ message.content }} 
+            <em>{{ message.timestamp }}</em>
+            <a href="{% url 'accountability_app:send_message' message.sender.id %}">Reply</a>
+        </li>
+    {% endfor %}
+</ul>
+{%endblock%}
+

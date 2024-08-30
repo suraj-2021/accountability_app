@@ -21,29 +21,23 @@
             </form>
 
             <h2>Entries for this date:</h2>
-            <ul class="list-group">
-            {% if day_objects is not None %}
-               {% if day_objects %}
-                  {% for day in day_objects %}
-                      <li class="list-group-item d-flex justify-content-between align-items-center text-green">
-                        <span class="note">Title: {{ day.title }}</span>  
-                        <span class="note">Note: {{ day.note }}</span>
-                         {% if 'day.is_public = True' %}
-                           <span class="note">Note: This is Public</span>
-                         {%endif%}
-                          <span class="badge badge-secondary text-danger">{{ day.date }}</span>
-                      </li>
-                  {% empty %}
-                      <li class="list-group-item">No entries for this date.</li>
-                  {% endfor %}
-                  {% else %}
-        <li class="list-group-item">No entries for this date.</li>
-                {% endif %}
-          {% else %}
-            <h4>No Notes!</h4>
-          {% endif %}
-          </ul>
-          
+            <ul id="entry-list" class="list-group">
+            {% if day_objects %}
+                {% for day in day_objects %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center" data-id="{{ day.id }}">
+                        <span class="note">Title: <span class="entry-title"> {{ day.title }}</a></span></span>  
+                        <span class="note">Note: <span class="entry-note">{{ day.note }}</span></span>
+                        {% if day.is_public %}
+                            <span class="note">Note: This is Public</span>
+                        {% endif %}
+                        <span class="badge badge-secondary text-danger">{{ day.date }}</span>
+
+                
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">No entries for this date.</li>
+            {% endif %}
+            </ul>
         </div>
     </div>
 </div>
