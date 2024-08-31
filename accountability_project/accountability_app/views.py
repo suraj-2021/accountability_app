@@ -1,17 +1,18 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from datetime import datetime
 from .myutils import generate_month_calendar
-from .forms import DayForm, UserRegisterForm
+from .forms import DayForm, UserRegisterForm, MessageForm
 from django.urls import reverse, reverse_lazy
-from . models import DayModel
+from . models import DayModel,Message
 from django.contrib.auth import logout,login
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import DayForm
 from django.contrib.auth import login as auth_login
 import razorpay
 from django.conf import settings
 from django.http import JsonResponse
-
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import authenticate
 
 def register(request):
@@ -70,7 +71,7 @@ def day_details(request, year, month, day):
 
 
 def login_view(request):
-    next_url = request.GET.get('next','/accountability_app/home')
+    #next_url = request.GET.get('next','/accountability_app/home')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -79,10 +80,10 @@ def login_view(request):
         if user is not None:
             login(request,user)
             messages.success(request,'You have successfully logged in.')
-            return redirect(next_url or'accountability_app/home')
+            return redirect(reverse('accountability_app:home'))
         else:
             messages.error(request,'invalid username or password. Please try again!')
-    return render(request,'accountability_app/login.html',{'next': next_url})
+    return render(request,'accountability_app/login.html')
 
 def logout_view(request):
     logout(request)  # Clear the user session
@@ -94,6 +95,49 @@ def public_notes(request):
     notes = DayModel.objects.filter(is_public=True)
     return render(request,'accountability_app/public_notes.html',{"notes":notes})
 
+
+def post_update(request,pk):
+    post = get_object_or_404(DayModel,pk=pk)
+    if request.method == "POST":
+        form = DayForm(request.POST,instance=post)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True, 'title': post.title, 'content': post.note,'date':post.date})
+        else:
+            form =DayForm(instance=post)
+            return render(request,'post_update.html',{'form':form})
+
+def post_delete(request,pk):
+    post = get_object_or_404(DayModel,pk=pk)
+    post.delete()
+    return JsonResponse({'success':True})
+
+
+@login_required
+def send_message(request, recipient_id):
+    recipient = get_object_or_404(User, id=recipient_id)
+    
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.recipient = recipient
+            message.save()
+            return redirect(reverse('accountability_app:inbox'))
+    else:
+        form = MessageForm()
+        
+    return render(request, 'accountability_app/send_message.html', {'form': form, 'recipient': recipient})
+
+
+def inbox(request):
+    messages = Message.objects.filter(recipient=request.user).order_by('-timestamp')
+    return render(request,'accountability_app/inbox.html',{'messages': messages})
+@login_required    
+def user_list(request):
+    users = User.objects.exclude(id= request.user.id)  # Exclude the current user
+    return render(request, 'accountability_app/user_list.html', {'users': users})
 
 def initiate_payment(request):
     amount = 0
