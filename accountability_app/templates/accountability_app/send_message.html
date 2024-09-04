@@ -1,9 +1,17 @@
 {%extends 'accountability_app/base.html' %}
 {%block content%}
 <h1>Send Message to {{ recipient.username }}</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Send Message</button>
-</form>
+<div class="bg-gradient-danger bg-gradient-warning bg-gradient-success bg-gradient-info p-3 text-white">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <a class="btn btn-primary">
+            <span class="bg-gradient-warning bg-gradient-info px-3 py-2 rounded">
+                <button type="submit" class="bg-gradient-blue" >Send Message</button>
+            </span>
+          </a>
+        
+    </form>
+  </div>
+
 {%endblock%}

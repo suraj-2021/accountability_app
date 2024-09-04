@@ -1,6 +1,7 @@
 {% extends "accountability_app/base.html" %}
 
 {% block content %}
+
 {% if messages %}
         <ul>
             {% for message in messages %}
@@ -10,6 +11,13 @@
     {% endif %}
     
 <h2>Login</h2>
+
+<button  id = 'increment'>Home</button>
+<script>
+    document.getElementById('increment').addEventListener('mouseover', function() {
+        window.location.href = "{% url 'accountability_app:home' %}";  // Replace with your URL name
+    });
+  </script>
 <form method="post">
     {% csrf_token %}
     <div>
@@ -20,6 +28,6 @@
         <label for="password">Password:</label>
         <input type="password" name="password" required>
     </div>
-    <button type="submit">Login</button>
+    <button id ="login"type="submit">Login</button>
 </form>
 {% endblock content %}

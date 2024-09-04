@@ -13,13 +13,18 @@
             <form method="post">
               {% csrf_token %}
               {{ form|crispy }}
-              <button type="submit" class="btn btn-primary">Register</button>
+              <button type="submit" class="btn btn-primary" id="submit">Register</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    document.getElementById("submit").addEventListener('click',function (){
+      alert('form submitted!');
+    })
+  </script>
         <td>
             <a href = "{%url 'accountability_app:login'%}">Login if registered</a>
         </td>

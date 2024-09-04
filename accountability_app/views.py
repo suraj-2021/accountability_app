@@ -41,7 +41,8 @@ def home(request):
         
         return redirect(reverse('accountability_app:register'))
 
-
+def empty(request):
+    return render(request,'accountabilty_app/empty.html')
 def day_details(request, year, month, day):
    
     date = f"{year}-{month}-{day}"
@@ -71,7 +72,7 @@ def day_details(request, year, month, day):
 
 
 def login_view(request):
-    next_url = request.GET.get('next','/accountability_app/home')
+    #next_url = request.GET.get('next','/accountability_app/home')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -80,10 +81,10 @@ def login_view(request):
         if user is not None:
             login(request,user)
             messages.success(request,'You have successfully logged in.')
-            return redirect(next_url or'accountability_app/home')
+            return redirect(reverse('accountability_app:home'))
         else:
             messages.error(request,'invalid username or password. Please try again!')
-    return render(request,'accountability_app/login.html',{'next': next_url})
+    return render(request,'accountability_app/login.html')
 
 def logout_view(request):
     logout(request)  # Clear the user session
@@ -95,6 +96,10 @@ def public_notes(request):
     notes = DayModel.objects.filter(is_public=True)
     return render(request,'accountability_app/public_notes.html',{"notes":notes})
 
+def private_notes(request):
+    if request.user.is_authenticated:
+       notes = DayModel.objects.filter(user=request.user.id).all()
+       return render(request,'accountability_app/private_notes.html',{"notes":notes})
 
 def post_update(request,pk):
     post = get_object_or_404(DayModel,pk=pk)
@@ -132,13 +137,20 @@ def send_message(request, recipient_id):
 
 
 def inbox(request):
-    messages = Message.objects.filter(recipient=request.user).order_by('-timestamp')
-    return render(request,'accountability_app/inbox.html',{'messages': messages})
-@login_required    
+    if request.user.is_authenticated:
+       messages = Message.objects.filter(recipient=request.user).order_by('-timestamp')
+       return render(request,'accountability_app/inbox.html',{'messages': messages})
+    else:
+        
+        return redirect(reverse('accountability_app:register'))
+   
 def user_list(request):
-    users = User.objects.exclude(id= request.user.id)  # Exclude the current user
-    return render(request, 'accountability_app/user_list.html', {'users': users})
-
+    if request.user.is_authenticated:
+        users = User.objects.exclude(id= request.user.id)  # Exclude the current user
+        return render(request, 'accountability_app/user_list.html', {'users': users})
+    else:
+        messages.error(request,"Please Login to view userlist!")
+        return redirect(reverse('accountability_app:login'))
 def initiate_payment(request):
     amount = 0
     if request.method == "POST":
@@ -183,6 +195,12 @@ def payment_success(request):
 
 def payment_failed(request):
     return render(request, "accountability_app/payment_failed.html")
+
+
+#AI ZONE
+
+
+
 """
 def day_details(request,year,month,day):
     

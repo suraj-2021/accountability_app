@@ -1,4 +1,3 @@
-from django.forms import ModelForm
 from .models import DayModel, Message
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -12,7 +11,7 @@ class MessageForm(forms.ModelForm):
         model = Message
         fields = ['content']
         widgets = {
-            'content': forms.Textarea(attrs={'placeholder': 'Type your message here...', 'rows': 4}),
+            'content': forms.Textarea(attrs={'placeholder': 'Type your message here...', 'rows': 12, 'cols':50,}),
         }
 
 
@@ -39,7 +38,7 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class DayForm(ModelForm):
+class DayForm(forms.ModelForm):
     class Meta:
         model = DayModel
         fields = ('title','note','date','is_public')

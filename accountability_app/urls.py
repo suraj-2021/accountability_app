@@ -5,9 +5,10 @@ from django.contrib.auth import views as auth_views
   # This allows namespacing of URLs
 
 urlpatterns = [
-    
+    path(' ',views.empty,name='empty'),
     path("home/", views.home, name="home"),
-    path("public_notes/", views.public_notes, name="public_notes"),  # Added a trailing slash for consistency
+    path("public_notes/", views.public_notes, name="public_notes"),
+    path("private_notes",views.private_notes, name="private_notes"),
     path('register/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
@@ -25,7 +26,6 @@ urlpatterns = [
 
     path('post_update/<int:pk>/', views.post_update, name='post_update'),
     path('post_delete/<int:pk>/', views.post_delete, name='post_delete'),
-
-
-    
+     
 ]
+    

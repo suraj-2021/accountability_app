@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'accountability_app',
+    'pwa',
     
 ]
 
@@ -73,6 +74,28 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'accountability_project.wsgi.application'
+
+#Django PWA CONFIGURATION
+PWA_APP_NAME = 'accountability_app'
+PWA_APP_DESCRIPTION = "Get your personal Calander, Create Notes and Chat with others!"
+PWA_APP_THEME_COLOR = '#10BAC0'
+PWA_APP_BACKGROUND_COLOR = '#F5E4E4'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/images/my_app_icon.png',
+        'sizes': '160x160'
+    }
+]
+
+
+
+
+
+
+
 
 
 # Database
@@ -120,8 +143,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_FILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = '/static/'
+#
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'accountability_app/static'),
+]
+
+#STATIC_FILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

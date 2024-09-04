@@ -1,0 +1,20 @@
+{%extends 'accountability_app/base.html'%}
+{%block content%}
+<div class="container mt-5">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            {%if notes%}
+                {%for note in notes%}'
+            
+                <h5 class="card-title">{{note}}</h5>
+                <p class="card-text">Private Notes Section!!</p>
+                {%endfor%}
+            {%else%}
+                <li>No Private Notes!</li>
+            {%endif%}
+            <p><a href="{%url 'accountability_app:public_notes'%}"> Click for Public Notes</p></a>
+            </div>
+            </div>
+            </div>
+            
+{%endblock%}

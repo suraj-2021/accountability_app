@@ -1,0 +1,37 @@
+{%extends 'accountability_app/base.html'%}
+{% load static %}
+{%block content%}
+
+<li class="nav-item">
+    <a class="nav-link" href="{%url 'accountability_app:logout'%}">Logout</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{%url 'accountability_app:register'%}">Register</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{%url 'accountability_app:initiate_payment'%}">Membership</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{%url 'accountability_app:public_notes'%}">Public Notes</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{%url 'accountability_app:user_list'%}">User List</a>
+  </li>
+  <a class="nav-link" href="{%url 'accountability_app:inbox'%}"> Inbox </a>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{%url 'accountability_app:login'%}">Login</a>
+  </li>
+
+  <div class="card" style="width: 18rem;">
+    <img src="{%url 'accountability_project/favicon.png' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+
+{%endblock%}

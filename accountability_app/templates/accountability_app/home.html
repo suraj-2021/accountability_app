@@ -26,10 +26,49 @@
     <h1>Calendar</h1>
     <div>
         {{ cal|safe }}
-        <img src="{% static 'accountability_project/static/images/favicon.png' %}" alt="Your Image">
-        <li>{{cal.day}}</li>
         
+        <li>{{cal.day}}</li>
+       
+</div>
+   <div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 25rem;">
+                <!-- Bootstrap Carousel -->
+                <div id="cardCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <!-- First slide -->
+                        <div class="carousel-item active">
+                            <img src="{%static 'accountability_app/images/favicon.png'%}" class="d-block w-100" alt="Image 1">
+                        </div>
+                        <!-- Second slide -->
+                        <div class="carousel-item">
+                            <img src="https://via.placeholder.com/320x180?text=Image+2" class="d-block w-100" alt="Image 2">
+                        </div>
+                        <!-- Third slide -->
+                        <div class="carousel-item">
+                            <img src="https://via.placeholder.com/320x180?text=Image+3" class="d-block w-100" alt="Image 3">
+                        </div>
+                    </div>
+                    <!-- Controls -->
+                    <a class="carousel-control-prev" href="#cardCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span  class="sr-only text-danger">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#cardCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class=" text-danger">Next</span>
+                    </a>
+                </div>
 
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{%url 'accountability_app:user_list' %}" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 </body>
 {%endblock%}
