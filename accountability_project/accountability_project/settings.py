@@ -127,6 +127,7 @@ STATIC_FILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+ALLOWED_HOSTS = ['surajsir.pythonanywhere.com']
 
 
 # django_project/settings.py
